@@ -1,101 +1,7 @@
-import random
 from dataclasses import dataclass
-
-class LinkedList:
-    class Node:
-        def __init__(self, value:tuple, prev:"LinkedList.Node" = None, next:"LinkedList.Node" = None):
-            self.value = value
-            self.prev = prev
-            self.next = next
-
-    def __init__(self, value:tuple):
-        self.head = self.Node(value)
-        self.length  = 1
-
-    def __len__(self):
-        return self.length
-    
-    def __getitem__(self, key):
-        match key:
-            case 0:
-                current = self.head
-
-            case _ if (key < 0 and abs(key) < self.length):
-                current = self.head
-
-                while (key != 0 or current != None):
-                    current = current.prev
-                    key += 1
-
-            case _ if (key > 0 and abs(key) < self.length):
-                current = self.head
-
-                while (key != 0 or current != None):
-                    current = current.prev
-                    key -= 1
-
-            case _:
-                current = None
-
-        return current
-
-    def __setitem__(self, key, value):
-        node = self.__getitem__(key)
-        if node:
-            node.value = value
-
-    def __delitem__(self, key):
-        current = self.__getitem__(key)
-        self.length -= 1
-
-        if (key == 0 and current.next):
-            if current.prev == current.next: # for first item when only 2 available
-                self.head = current.next
-                self.head.next = None
-                self.head.prev = None
-            else:                            # normal first item
-                self.head = current.next
-                self.head.prev = current.prev
-                current.prev.next = self.head
-
-        else:
-            if current.prev == current.next: # for second item when only 2 available
-                self.head.next = None
-                self.head.prev = None
-            else:                            # every other case
-                current.prev.next = current.next
-                current.next.prev = current.prev
-
-    def append(self, value:tuple):
-        if self.head.prev:
-            last_node = self.head.prev
-        else:
-            last_node = self.head
-
-        new_node = self.Node(value, last_node, self.head)
-        self.head.prev = new_node
-        last_node.next = new_node
-
-        self.length += 1
-
-
-class SnakeLinkedList(LinkedList):
-    def __init__(self, fruit_position:tuple, snake_body:list):
-        super().__init__(fruit_position)
-
-        for element in snake_body:
-            self.append(element)
-
-    def set_fruit(self, position:tuple):
-        self.__setitem__(0, position)
-
-    def move_snake(self, position:tuple):
-        self.__delitem__(1)
-        self.append(position)
-
-    def expand_snake(self):
-        pass
-
+from snake import utils
+from snake import constants
+import random
 
 class Map:
     # random
@@ -105,21 +11,24 @@ class Map:
     # 2 - head   -> @
     # 3 - fruit  -> *
 
-    def __init__( self, snake: "Snake", n: int, m: int):
-        self.board_size = ( (min(max(n,8),45)) , min(max(m,8),45) ) # 8 <= n/m <= 45; 45*45 < 2048
-        self.snake = snake
-        
-        self.occupied = LinkedList( (0,0) )
+    def __init__( self, n: int, m: int):
+        self.board_size = ( (min(max(n,13),45)) , min(max(m,13),45) ) # 13 <= n/m <= 45; 45*45 < 2048
+
+        self.board_list = [(i,j) for i in range(self.board_size(0)) for j in range(self.board_size(1))] 
+        self.main_list = utils.SnakeLinked_List(constants.DEFAULT_FRUIT, constants.DEFAULT_SNAKE)
+
         # occupied [index]:
         # 0  -> current position of fruit
         # 1  -> snakes tail
         # -1 -> snakes head
 
-        # fruit starts at
+        # fruit starts at (8,6), snake at ([3-5],6)
 
+    def spawn_fruit( self ) -> None:
+        """Spawns new fruit after previous eaten and assigns it to the main list"""
 
-    def spawn_fruit( self ) -> tuple:
-        pass
+        points_pool = set(self.board_list) - self.main_list.to_set()
+        self.main_list.set_fruit(random.choice(points_pool))
 
     def print_board( self ) -> None:
         to_print = 'w'
@@ -145,28 +54,6 @@ class Map:
                 print( to_print , end=" " )
             
             print()
-
-
-
-@dataclass
-class Point:
-    # dataclasses
-    x: int
-    y: int
-
-class Snake:
-    
-    body = [Point(1,3),Point(1,4),Point(1,5)]        
-
-
-class Snake_Head(Snake):
-    pass
-
-class Snake_Body(Snake):
-    pass
-
-class Fruit(Point):
-    pass
 
 
 s = Snake

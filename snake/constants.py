@@ -1,0 +1,2 @@
+DEFAULT_FRUIT = (8,6)
+DEFAULT_SNAKE = [(3,6), (4,6), (5,6)]
