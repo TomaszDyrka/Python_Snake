@@ -69,7 +69,7 @@ class Linked_List:
             key (int): index number of desired place in the list
         
         Returns:
-            current: a point in space (x,y); default to None
+            node.value: a point in space (x,y); default to None
         """
 
         node = self._find_node(key)
@@ -196,27 +196,6 @@ class SnakeLinked_List(Linked_List):
         for element in snake_body:
             self.append(element)
 
-    def set_fruit(self, position:tuple):
-        """
-        Updates fruit position
-
-        Args:
-            position (tuple): a point in space (x,y); position of the new fruit
-        """
-
-        self.__setitem__(0, position)
-
-    def move_snake(self, position:tuple):
-        """
-        Updates snake position in the list
-
-        Args:
-            position (tuple): a point in space (x,y); new snake head position
-        """
-
-        self.__delitem__(1)
-        self.append(position)
-
     def diff(self, width:int, height:int):
         """
         Produces list - difference between positions free and taken, without maintaining order of positions
@@ -238,6 +217,44 @@ class SnakeLinked_List(Linked_List):
 
         return list_
 
-    def expand_snake(self):
-        pass
+    def set_fruit(self, position:tuple):
+        """
+        Updates fruit position
 
+        Args:
+            position (tuple): a point in space (x,y); position of the new fruit
+        """
+
+        self.__setitem__(0, position)
+
+    def get_fruit(self) -> tuple:
+        """
+        Returns fruit position
+
+        Returns:
+            position (tuple): current fruit position
+        """
+
+        return self.head.value
+
+    def move_snake(self, direction:tuple):
+        """
+        Updates snake position in the list
+
+        Args:
+            direction (tuple): one of the 4 possible directions: left (-1,0); up (0,1); right (1,0); down (0,-1)
+        """
+
+        self.__delitem__(1)
+        old_position = self.__getitem__(-1)
+        self.append((old_position[0] + direction[0], old_position[1] + direction[1]))
+    
+    def expand_snake(self):
+        """Expands current snake body in-place (doubles 'tail node' in the body)"""
+
+        tail_value = self.head.next.value
+        tail_node = self.Node(tail_value, prev=self.head, next=self.head.next)
+        self.head.next=tail_node
+        self.head.next.prev=tail_node
+        
+        self.length += 1
