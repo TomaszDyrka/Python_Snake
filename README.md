@@ -1,7 +1,7 @@
 # 🐍 Snake (Terminal Edition)
 
-A classic Snake game written in pure Python, playable directly in your terminal.
-Control the snake, eat the fruits, and avoid colliding with yourself or the walls!
+A classic Snake game written in pure Python - playable directly in your terminal.
+Control the snake, eat fruit, and avoid colliding with yourself or the walls!
 
 ---
 
@@ -23,22 +23,23 @@ python main.py 13 13
 
 - The game will launch with a board of the given dimensions.
 
-- Use WASD, control the snake’s movement.
+- Use WASD to control the snake’s movement.
 
-- Pressing a key more than once (or holding it) causes the snake to go faster!
+- Pressing or holding a key makes the snake to go faster!
 
 The game ends if:
 
 - you hit the wall 🧱
+  
 - or you run into yourself 🌀
 
 ⚙️ Requirements
 
-- Python 3.8+ (probably lower, I've written it on 3.13) 
+- Python 3.8+ (tested on 3.13) 
 
 - Curses library (installed by default on Linux and MacOS)
 
-- Works natively in any terminal — no extra external libraries required (unless you added additional features).
+- Works natively in any terminal - no extra external libraries required (unless you added additional features).
 
 📁 Project Structure
 ```
@@ -46,10 +47,10 @@ snake/
 │
 ├── main.py              # Entry point — runs the game
 ├── game_obj/
-│   ├── __init__.py      # Secures proper importing inside files.
-│   ├── constants.py     # Has several useful game-defining numbers.
-│   ├── game_objects.py  # Contains the Game class and Map class, determines most of game's rules.
-│   └── utils.py         # Holds data structures, defines most of critical behaviour.
+│   ├── __init__.py      # Ensures proper importing within the project.
+│   ├── constants.py     # Defines key game constants.
+│   ├── game_objects.py  # Contains the Game and Map classes; defines most of the game’s rules.
+│   └── utils.py         # Provides data structures and defines core behaviour.
 └── README.md            # Project documentation.
 ```
 
@@ -71,7 +72,6 @@ If you see:
 
 ```
 In order to play the game, you need to provide the board dimensions.
-
 ```
 
 or
@@ -112,7 +112,7 @@ https://creativecommons.org/licenses/by-nc/4.0/
 
 - Score tracking and leaderboard
 
-- Difficulty levels (in form of speed adjustment)
+- Difficulty levels (in the form of speed adjustment)
 
 - ASCII animations (maybe) and better terminal graphics (necessarily)
 
