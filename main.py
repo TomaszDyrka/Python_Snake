@@ -6,9 +6,11 @@ def main():
     if len(sys.argv) != 3:
         print("In order to play the game, you need to provide the board dimensions.\n"
               "Example: python main.py 13 13 (where 13 <= X,Y <= 45)")
-        sys.exit(2)
+        sys.exit(2)    
 
     try:
+        import curses
+
         x = int(sys.argv[1])
         y = int(sys.argv[2])
 
@@ -18,10 +20,18 @@ def main():
     except ValueError:
         print("Please provide valid integer dimensions (e.g. python main.py 13 13).")
         sys.exit(3)
+    
+    except ImportError:
+        print("""The 'curses' module is not available on Windows by default.\n
+        Please install it manually using:\n
+        pip install windows-curses"""
+        )
+        sys.exit(4)        
+        
     except Exception as e:
         print("Something went wrong!\n")
         print(e)
-        sys.exit(4)
+        sys.exit(5)
 
 if __name__ == '__main__':
     main()
