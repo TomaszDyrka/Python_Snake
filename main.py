@@ -1,5 +1,4 @@
 import snake.game_objects as game_obj
-import curses
 import sys
 
 def main():
@@ -9,8 +8,6 @@ def main():
         sys.exit(2)    
 
     try:
-        import curses
-
         x = int(sys.argv[1])
         y = int(sys.argv[2])
 

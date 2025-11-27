@@ -1,9 +1,8 @@
 import random
 import curses
-import time
 import sys
 import snake.constants as constants
-from snake.utils import *
+import snake.utils as utils
 
 class Game:
     def __init__(self, width:int, height:int):
@@ -13,9 +12,9 @@ class Game:
             m (int): board height (y); min value - 13, max - 45
         """
 
-        width = min(max(width,13),45) 
+        width = min(max(width,13),45)
         height = min(max(height,13),45)
-        
+
         # 13 <= n/m <= 45; 45*45 < 2048
 
         self.map = Map(width, height) # all the data of the state of the game
@@ -37,8 +36,6 @@ class Game:
         self.map.print_board(self.game_window)
 
         while(True):
-            t_inital = time.time()
-
             self.input_ = chr(value) if (value := self.game_window.getch()) != -1 else value
 
             self.update_handler() # logic
@@ -58,16 +55,16 @@ class Game:
 
         match self.input_:
             case 's':
-                if is_reverse(self.direction, (0,1)):
+                if utils.is_reverse(self.direction, (0,1)):
                     self.direction = (0,1)
             case 'w':
-                if is_reverse(self.direction, (0,-1)):
+                if utils.is_reverse(self.direction, (0,-1)):
                     self.direction = (0,-1)
             case 'a':
-                if is_reverse(self.direction, (-1,0)):
+                if utils.is_reverse(self.direction, (-1,0)):
                     self.direction = (-1,0)
             case 'd':
-                if is_reverse(self.direction, (1,0)):
+                if utils.is_reverse(self.direction, (1,0)):
                     self.direction = (1,0)
             case _:
                 pass
@@ -134,7 +131,7 @@ class Map:
         """
         self.board_size = (n,m)
         self.board_list = [(i,j) for i in range(n) for j in range(m)] # all the possible positions
-        self.main_list = SnakeLinked_List(constants.DEFAULT_FRUIT, constants.DEFAULT_SNAKE) # list containing snake and fruit
+        self.main_list = utils.SnakeLinked_List(constants.DEFAULT_FRUIT, constants.DEFAULT_SNAKE) # list containing snake and fruit
 
         # main_list[index]:
         # 0  -> current position of fruit
@@ -143,7 +140,7 @@ class Map:
 
         # fruit starts at (8,6), snake at ([3-5],6)
 
-    def spawn_fruit( self ) -> None:
+    def spawn_fruit( self ) -> int:
         """Spawns new fruit after previous eaten and assigns it to the main list, expands the snake afterwards
         Returns:
             return code (int): code for: 1 - normal spawn; 2 - end of the game (no more tiles to spawn)"""
@@ -216,19 +213,3 @@ class Map:
             print(to_print + "|")
 
         print("+" + ("-" * 3) * self.board_size[0] + "+")
-
-
-def is_reverse(dir_a, dir_b):
-    """
-    Checks if direction A and direction B are on the opposite (reverse) sides
-    Args:
-        dir_a (tuple): first direction
-        dir_b (tuple): second direction
-    Returns:
-        outcome (bool): True if not reverse, False if reverse
-    """
-
-    if (dir_a[0] * dir_b[0] == -1) or (dir_a[1] * dir_b[1] == -1):
-        return False
-    else:
-        return True

@@ -1,12 +1,13 @@
-import random
-import curses
-import time
-import sys
-import snake.constants as constants
+from __future__ import annotations
 
 class Linked_List:
     class Node:
-        def __init__(self, value:tuple, prev:"Linked_List.Node" = None, next:"Linked_List.Node" = None):
+        def __init__(
+                self, 
+                value:tuple, 
+                prev: Linked_List.Node | None = None, 
+                next: Linked_List.Node | None = None
+            ):
             """
             Initialize new node
 
@@ -21,7 +22,7 @@ class Linked_List:
 
 
     class Linked_List_Iterator:
-        def __init__(self, head_node:"Linked_List.Node", length:int):
+        def __init__(self, head_node:Linked_List.Node, length:int):
             """Linked_List iterator"""
             self.node = head_node
             self.num = 0
@@ -52,7 +53,7 @@ class Linked_List:
             value (tuple): a point in space (x,y)
         """
 
-        self.head = self.Node(value)
+        self.head: Linked_List.Node | None = self.Node(value)
         self.length = 1
 
     def __len__(self):
@@ -101,23 +102,34 @@ class Linked_List:
         Args:
             key (int): index number of desired place in the list
         """
-
         current = self._find_node(key)
         if not current:
             return
-        
+
         if key == 0:
+            if self.head is None:
+                return  
+
             if self.head.next == self.head:
                 self.head = None
+
             else:
+                assert current.next is not None
+                assert current.prev is not None
+
                 self.head = current.next
+
+                assert self.head is not None
+
                 self.head.prev = current.prev
                 current.next = self.head
-
         else:
+            assert current.next is not None
+            assert current.prev is not None
+
             current.next.prev = current.prev
             current.prev.next = current.next
-        
+
         self.length -= 1
 
 
@@ -129,12 +141,12 @@ class Linked_List:
                 pass
 
             case _ if (key < 0 and abs(key) < self.length):
-                while (key != 0 and current != None):
+                while (key != 0 and current is not None):
                     current = current.prev
                     key += 1
 
             case _ if (key > 0 and abs(key) < self.length):
-                while (key != 0 and current != None):
+                while (key != 0 and current is not None):
                     current = current.next
                     key -= 1
 
@@ -150,7 +162,8 @@ class Linked_List:
         Args:
             value (tuple): a point in space (x,y)
         """
-
+        assert self.head is not None
+        
         if self.head.prev:
             last_node = self.head.prev
         else:
@@ -222,6 +235,7 @@ class SnakeLinked_List(Linked_List):
         Returns:
             position (tuple): current fruit position
         """
+        assert self.head is not None
 
         return self.head.value
 
@@ -249,3 +263,17 @@ class SnakeLinked_List(Linked_List):
         self.length += 1
 
 
+def is_reverse(dir_a, dir_b):
+    """
+    Checks if direction A and direction B are on the opposite (reverse) sides
+    Args:
+        dir_a (tuple): first direction
+        dir_b (tuple): second direction
+    Returns:
+        outcome (bool): True if not reverse, False if reverse
+    """
+
+    if (dir_a[0] * dir_b[0] == -1) or (dir_a[1] * dir_b[1] == -1):
+        return False
+    else:
+        return True
