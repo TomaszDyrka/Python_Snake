@@ -55,16 +55,16 @@ class Game:
 
         match self.input_:
             case 's':
-                if utils.is_reverse(self.direction, (0,1)):
+                if not utils.is_reverse(self.direction, (0,1)):
                     self.direction = (0,1)
             case 'w':
-                if utils.is_reverse(self.direction, (0,-1)):
+                if not utils.is_reverse(self.direction, (0,-1)):
                     self.direction = (0,-1)
             case 'a':
-                if utils.is_reverse(self.direction, (-1,0)):
+                if not utils.is_reverse(self.direction, (-1,0)):
                     self.direction = (-1,0)
             case 'd':
-                if utils.is_reverse(self.direction, (1,0)):
+                if not utils.is_reverse(self.direction, (1,0)):
                     self.direction = (1,0)
             case _:
                 pass
@@ -83,7 +83,7 @@ class Game:
                     self.status_code = -1
                     return
 
-            # now that lose conditions were checked, need to check fruit collision
+            # now that lose conditions were checked, we need to check fruit collision
             if (s_pos_x == f_pos_x) and (s_pos_y == f_pos_y): # if head hits fruit
                 self.status_code = self.map.spawn_fruit()
                 return 
@@ -131,7 +131,7 @@ class Map:
         """
         self.board_size = (n,m)
         self.board_list = [(i,j) for i in range(n) for j in range(m)] # all the possible positions
-        self.main_list = utils.SnakeLinked_List(constants.DEFAULT_FRUIT, constants.DEFAULT_SNAKE) # list containing snake and fruit
+        self.main_list = utils.Snake_Linked_List(constants.DEFAULT_FRUIT, constants.DEFAULT_SNAKE) # list containing snake and fruit
 
         # main_list[index]:
         # 0  -> current position of fruit

@@ -1,25 +1,21 @@
 from __future__ import annotations
+from dataclasses import dataclass
 
 class Linked_List:
+    @dataclass
     class Node:
-        def __init__(
-                self, 
-                value:tuple, 
-                prev: Linked_List.Node | None = None, 
-                next: Linked_List.Node | None = None
-            ):
-            """
-            Initialize new node
+        """
+        Initialize new node
 
-            Args:
-                value (tuple): a point in space (x,y)
-                prev (Linked_List.Node): node linked backwards, default to None
-                next (Linked_List.Node): node linked forward, default to None
-            """
-            self.value = value
-            self.prev = prev
-            self.next = next
+        Args:
+            value (tuple): a point in space (x,y)
+            prev (Linked_List.Node): node linked backwards, default to None
+            next (Linked_List.Node): node linked forward, default to None
+        """
 
+        value:tuple
+        prev: Linked_List.Node | None = None
+        next: Linked_List.Node | None = None
 
     class Linked_List_Iterator:
         def __init__(self, head_node:Linked_List.Node, length:int):
@@ -140,7 +136,7 @@ class Linked_List:
             case 0:
                 pass
 
-            case _ if (key < 0 and abs(key) < self.length):
+            case _ if (key < 0 and abs(key) <= self.length):
                 while (key != 0 and current is not None):
                     current = current.prev
                     key += 1
@@ -191,7 +187,7 @@ class Linked_List:
         return set_
     
 
-class SnakeLinked_List(Linked_List):
+class Snake_Linked_List(Linked_List):
     def __init__(self, fruit_position:tuple, snake_body:list):
         """
         Initializes a new class instance
@@ -235,8 +231,8 @@ class SnakeLinked_List(Linked_List):
         Returns:
             position (tuple): current fruit position
         """
-        assert self.head is not None
 
+        assert self.head is not None
         return self.head.value
 
     def move_snake(self, direction:tuple):
@@ -255,25 +251,26 @@ class SnakeLinked_List(Linked_List):
         
     def expand_snake(self):
         """Expands current snake body in-place (doubles 'tail node' in the body)"""
+
         old_tail = self.head.next
         tail_value = old_tail.value
+
         new_node = self.Node(tail_value, prev=self.head, next=old_tail)
+
         self.head.next = new_node
         old_tail.prev = new_node
+        
         self.length += 1
 
 
 def is_reverse(dir_a, dir_b):
     """
-    Checks if direction A and direction B are on the opposite (reverse) sides
+    Checks if move direction A and possible move direction B are on the opposite (reverse) sides
     Args:
-        dir_a (tuple): first direction
-        dir_b (tuple): second direction
+        dir_a (tuple): first direction - initial head movement
+        dir_b (tuple): second direction - desired head movement
     Returns:
-        outcome (bool): True if not reverse, False if reverse
+        outcome (bool): True if reverse, False if not reverse
     """
 
-    if (dir_a[0] * dir_b[0] == -1) or (dir_a[1] * dir_b[1] == -1):
-        return False
-    else:
-        return True
+    return (dir_a[0] * dir_b[0] == -1) or (dir_a[1] * dir_b[1] == -1)

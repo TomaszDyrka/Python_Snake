@@ -1,0 +1,6 @@
+### Python ###
+__pycache__
+.python-version
+uv.lock
+.ruff_cache
+
