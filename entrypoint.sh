@@ -15,6 +15,6 @@ else
 Wrong command! You should use:
 - bash: to use container's bash
 - test: to run pytest
-- run \$1 \$2: to run the game
+- run [width] [height]: to run the game
 EOF
 fi

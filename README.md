@@ -7,6 +7,30 @@ Control the snake, eat fruit, and avoid colliding with yourself or the walls!
 
 ## 🎮 How to Play
 
+### Docker
+
+You can build the Docker container using the provided Dockerfile.
+
+First, build the image:
+
+```bash
+docker build -t python-snake .
+```
+
+Then, run it:
+
+```bash
+docker run -it python-snake [COMMAND] [ARGUMENTS]
+```
+
+**Available commands (`[COMMAND]`):**
+
+* `run [width] [height]` - for running the game (e.g., `docker run -it python-snake run 20 20`)
+* `test` - for running tests
+* `bash` - for accessing the internal shell
+
+### Native
+
 Run the game from your terminal:
 
 ```bash
@@ -15,7 +39,7 @@ python main.py <width> <height>
 
 Example:
 
-```
+```bash
 python main.py 13 13
 ```
 
@@ -30,7 +54,7 @@ python main.py 13 13
 The game ends if:
 
 - you hit the wall 🧱
-  
+
 - or you run into yourself 🌀
 
 ⚙️ Requirements
@@ -42,16 +66,24 @@ The game ends if:
 - Works natively in any terminal - no extra external libraries required (unless you added additional features).
 
 📁 Project Structure
+
 ```
-snake/
+Python-Snake/
 │
-├── main.py              # Entry point — runs the game
-├── game_obj/
-│   ├── __init__.py      # Ensures proper importing within the project.
-│   ├── constants.py     # Defines key game constants.
-│   ├── game_objects.py  # Contains the Game and Map classes; defines most of the game’s rules.
-│   └── utils.py         # Provides data structures and defines core behaviour.
-└── README.md            # Project documentation.
+├── src/
+│   ├── __init__.py              # Ensures proper importing within the project.
+│   ├── main.py                  # Main file — runs the game.
+│   └── snake/
+│       ├── __init__.py          # Ensures proper importing within the project.
+│       ├── constants.py         # Defines key game constants.
+│       ├── game_objects.py      # Contains the Game and Map classes; defines most of the game’s rules.
+│       └── utils.py             # Provides data structures and defines core behaviour.
+├── tests/
+│   └── test_data_structures.py  # Bundled up tests for data structures located in /src/snake/utils.py.
+├── entrypoint.sh                # Entry point for docker image, to be able to run tests, the game, etc.
+├── Dockerfile                   # File for easy container creation.
+├── pyproject.toml               # Project metadata.
+└── README.md                    # Project documentation.
 ```
 
 🧩 Features
@@ -115,4 +147,3 @@ https://creativecommons.org/licenses/by-nc/4.0/
 - Difficulty levels (in the form of speed adjustment)
 
 - ASCII animations (maybe) and better terminal graphics (necessarily)
-
