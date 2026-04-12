@@ -1,12 +1,27 @@
 [project]
 name = "python-snake"
-version = "0.1.0"
-description = "Add your description here"
+version = "0.1.1"
+description = "A simple snake game in terminal"
+authors = [
+    { name="Tomasz Dyrka", email="tomaszdyrka@outlook.com"},
+]
 readme = "README.md"
 requires-python = ">=3.13"
-dependencies = []
-
-[dependency-groups]
-dev = [
+dependencies = [
     "pytest>=9.0.3",
+    "windows-curses; sys_platform == 'win32'",
 ]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Environment :: Console :: Curses",
+    "Operating System :: OS Independent",
+]
+license = { text = "CC BY-NC 4.0" }
+
+[project.urls]
+Homepage = "https://github.com/TomaszDyrka/Python-Snake"
+Issues = "https://github.com/TomaszDyrka/Python-Snake/issues"
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"

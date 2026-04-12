@@ -1,7 +1,10 @@
+### git ### 
+.git
+.gitignore
+
 ### Python ###
 __pycache__
 .python-version
 uv.lock
 .ruff_cache
 .pytest_cache
-
