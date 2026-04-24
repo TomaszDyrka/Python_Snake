@@ -11,11 +11,5 @@ pipeline {
                 sh './entrypoint.sh test'
             }
         }
-
-        stage('Run') {
-            steps {
-                sh './entrypoint.sh run 13 13'
-            }
-        }
     }
 }
