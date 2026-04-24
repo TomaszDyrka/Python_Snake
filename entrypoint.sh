@@ -11,10 +11,5 @@ elif [[ "$1" == "run" ]]; then
     exec python3 ./src/main.py "$2" "$3"
 
 else
-    cat <<EOF
-Wrong command! You should use:
-- bash: to use container's bash
-- test: to run pytest
-- run [width] [height]: to run the game
-EOF
+    exec "$@" 
 fi
