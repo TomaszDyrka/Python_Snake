@@ -1,4 +1,4 @@
-from src.snake.utils import *
+from snake.utils import *
 import pytest
 
 
